@@ -10,9 +10,10 @@ class Poli extends Model
 
     protected $fillable = [
         'nama_poli',
-        'keterangan',
+        'keterangan'
     ];
 
+    // poli punya banyak dokter
     public function dokters()
     {
         return $this->hasMany(User::class, 'id_poli');

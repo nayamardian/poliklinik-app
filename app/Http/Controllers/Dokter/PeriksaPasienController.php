@@ -42,6 +42,16 @@ class PeriksaPasienController extends Controller
 
         $obatIds = json_decode($request->obat_json, true);
 
+    
+        foreach ($obatIds as $idObat) {
+            $obat = Obat::find($idObat);
+
+            if (!$obat || $obat->stok <= 0) {
+                return back()->withInput()
+                    ->with('error', 'Stok obat ' . $obat->nama_obat . ' habis.');
+            }
+        }
+
         $periksa = Periksa::create([
             'id_daftar_poli' => $request->id_daftar_poli,
             'tgl_periksa' => now(),
@@ -54,6 +64,10 @@ class PeriksaPasienController extends Controller
                 'id_periksa' => $periksa->id,
                 'id_obat' => $idObat,
             ]);
+            
+            $obat = Obat::find($idObat);
+            $obat->stok -= 1;
+            $obat->save();
         }
 
         return redirect()->route('periksa-pasien.index')->with('success', 'Data periksa berhasil disimpan.');

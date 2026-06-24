@@ -68,7 +68,7 @@ class PasienController extends Controller
             'email' => $request->email
         ];
 
-        if ($request->filled('password')) {
+        if($request->filled('password')) {
             $updateData['password'] = Hash::make($request->password);
         }
 
@@ -79,8 +79,7 @@ class PasienController extends Controller
             ->with('type', 'success');
     }
 
-    public function destroy(User $pasien)
-    {
+    public function destroy(User $pasien){
         $pasien->delete();
         return redirect()->route('pasien.index')
             ->with('message', 'Data Pasien Berhasil Di Hapus')

@@ -15,6 +15,11 @@
     {{-- Card --}}
     <div class="card bg-base-100 shadow-sm rounded-2xl border border-slate-200">
         <div class="card-body p-8">
+            @if(session('error'))
+            <div class="alert alert-error mb-4">
+                <span>{{ session('error') }}</span>
+            </div>
+            @endif
 
             <form action="{{ route('periksa-pasien.store') }}" method="POST">
                 @csrf
